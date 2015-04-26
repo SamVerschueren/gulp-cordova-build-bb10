@@ -1,0 +1,30 @@
+{
+  "name": "gulp-cordova-build-bb10",
+  "version": "0.0.1",
+  "description": "This plugin builds the cordova project for blackberry 10",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SamVerschueren/gulp-cordova-build-bb10.git"
+  },
+  "keywords": [
+    "gulp",
+    "cordova",
+    "build",
+    "blackberry10",
+    "bb10",
+    "blackberry"
+  ],
+  "author": {
+    "name": "Sam Verschueren",
+    "email": "sam.verschueren@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SamVerschueren/gulp-cordova-build-bb10/issues"
+  },
+  "homepage": "https://github.com/SamVerschueren/gulp-cordova-build-bb10"
+}

@@ -1,14 +1,12 @@
-# gulp-cordova-build-android
+# gulp-cordova-build-bb10
 
-> This step builds the cordova project for the Android platform
+> Build the cordova project for the BlackBerry 10 platform.
 
 ## Installation
 
 ```bash
 npm install --save-dev gulp-crodva-build-bb10
 ```
-
-**Not yet available**
 
 ## Usage
 
@@ -28,6 +26,31 @@ gulp.task('build', function() {
 ```
 
 This plugin will build the cordova project for the BlackBerry 10 platform.
+
+### Re-adding the BlackBerry 10 platform
+
+The ```bb10()``` method accepts one optional parameter. If the parameter passed in is ```true```, it will first
+remove the entire BlackBerry 10 platform and add it again.
+
+```JavaScript
+var gulp = require('gulp'),
+    bb10 = require('gulp-cordova-build-bb10');
+
+gulp.task('rebuild', function() {
+    return gulp.src('.cordova')
+        .pipe(bb10(true));
+});
+```
+
+This task will simply remove the BlackBerry 10 platform, add it again and rebuild it.
+
+```bash
+$ cordova platform remove blackberry10
+$ cordova platform add blackberry10
+$ cordova build blackberry10
+```
+
+If no parameter is provided, it will only build the platform.
 
 ## Related
 

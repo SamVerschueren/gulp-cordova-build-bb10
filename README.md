@@ -10,6 +10,9 @@ npm install --save-dev gulp-crodva-build-bb10
 
 ## Usage
 
+Make sure the location of the [NDK](http://cordova.apache.org/docs/en/5.0.0/guide_platforms_blackberry10_index.md.html#BlackBerry%2010%20Platform%20Guide) is added
+to your path.
+
 ```JavaScript
 var gulp = require('gulp'),
     create = require('gulp-cordova-create'),

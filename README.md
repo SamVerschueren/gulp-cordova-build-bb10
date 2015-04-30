@@ -5,7 +5,7 @@
 ## Installation
 
 ```bash
-npm install --save-dev gulp-crodva-build-bb10
+npm install --save-dev gulp-cordova-build-bb10
 ```
 
 ## Usage

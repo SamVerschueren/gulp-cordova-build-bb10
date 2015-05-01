@@ -17,33 +17,37 @@ var path = require('path'),
     cordova = cordovaLib.raw;
 
 // export the module
-module.exports = function(rm) {
+module.exports = function(options) {
+
+    options = options || {};
 
     return through.obj(function(file, enc, cb) {
         // Change the working directory
         process.env.PWD = file.path;
 
-        // Pipe the file to the next step
-        this.push(file);
-
         cb();
     }, function(cb) {
-        var exists = fs.existsSync(path.join(cordovaLib.findProjectRoot(), 'platforms', 'blackberry10')),
-            reAdd = exists === true && rm === true;
+        var self = this,
+            bbPath = path.join(cordovaLib.findProjectRoot(), 'platforms', 'blackberry10'),
+            release = options.keystorepass;
 
         Q.fcall(function() {
-            if(reAdd) {
-                // First remove the platform if we have to re-add it
-                return cordova.platforms('rm', 'blackberry10');
-            }
-        }).then(function() {
-            if(exists === false || reAdd) {
-                // Add the blackberry10 platform if it does not exist or we have to re-add it
+            return fs.existsSync(bbPath);
+        }).then(function(exists) {
+            if(!exists) {
+                // Add the blackberry10 platform if it does not exist
                 return cordova.platforms('add', 'blackberry10');
             }
         }).then(function() {
+            var opt = [];
+
+            if(release) {
+                // If the user wants to build for release, add the keystorepass option
+                opt.push('--release');
+            }
+
             // Build the platform
-            return cordova.build({platforms: ['blackberry10']});
+            return cordova.build({platforms: ['blackberry10'], options: opt});
         }).then(cb).catch(function(err) {
             // Return an error if something happened
             cb(new gutil.PluginError('gulp-cordova-build-blackberry10', err.message));

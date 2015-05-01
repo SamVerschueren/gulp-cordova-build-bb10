@@ -29,9 +29,10 @@ module.exports = function(options) {
     }, function(cb) {
         var self = this,
             bbPath = path.join(cordovaLib.findProjectRoot(), 'platforms', 'blackberry10'),
-            release = options.keystorepass;
+            release = options.release === true || options.keystorepass !== undefined;
 
         Q.fcall(function() {
+            // Test if the blackberry platform already exists
             return fs.existsSync(bbPath);
         }).then(function(exists) {
             if(!exists) {
@@ -43,12 +44,39 @@ module.exports = function(options) {
 
             if(release) {
                 // If the user wants to build for release, add the keystorepass option
-                opt.push('--release');
+                opt.push('release');
+
+                if(options.keystorepass) {
+                    // Only add these arguments if the keystorepass is provided
+                    opt.push('--keystorepass');
+                    opt.push(options.keystorepass);
+                }
+
+                if(options.buildId) {
+                    // Add the build ID if it is provided
+                    opt.push('--buildId');
+                    opt.push(options.buildId);
+                }
             }
 
             // Build the platform
             return cordova.build({platforms: ['blackberry10'], options: opt});
-        }).then(cb).catch(function(err) {
+        }).then(function() {
+            var base = path.join(bbPath, 'build/device'),
+                cwd = process.env.PWD,
+                bar = path.join(base, 'bb10app.bar'),
+                contents = fs.readFileSync(bar);
+
+            // Make sure the bar is passed to the next step
+            self.push(new gutil.File({
+                base: base,
+                cwd: cwd,
+                path: bar,
+                contents: contents
+            }));
+
+            cb();
+        }).catch(function(err) {
             // Return an error if something happened
             cb(new gutil.PluginError('gulp-cordova-build-blackberry10', err.message));
         });

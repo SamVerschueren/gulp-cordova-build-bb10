@@ -1,6 +1,6 @@
 {
   "name": "gulp-cordova-build-bb10",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Build the cordova project for the BlackBerry 10 platform.",
   "main": "index.js",
   "scripts": {

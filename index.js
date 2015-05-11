@@ -9,10 +9,11 @@
 
 // module dependencies
 var path = require('path'),
-    fs = require('fs'),
+    fs = require('fs-extra'),
     through = require('through2'),
     gutil = require('gulp-util'),
     Q = require('q'),
+    userHome = require('user-home'),
     cordovaLib = require('cordova-lib').cordova,
     cordova = cordovaLib.raw;
 
@@ -39,6 +40,14 @@ module.exports = function(options) {
                 // Add the blackberry10 platform if it does not exist
                 return cordova.platforms('add', 'blackberry10');
             }
+        }).then(function() {
+            if(options.debugtoken) {
+                if(!fs.existsSync(options.debugtoken)) {
+                    throw new Error('The debugtoken provided does not exist.');
+                }
+                
+                return fs.copySync(options.debugtoken, path.join(userHome, '.cordova/blackberry10debugtoken.bar'));
+            }  
         }).then(function() {
             var opt = [];
 

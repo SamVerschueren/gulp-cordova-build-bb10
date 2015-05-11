@@ -31,8 +31,10 @@
   "homepage": "https://github.com/SamVerschueren/gulp-cordova-build-bb10",
   "dependencies": {
     "cordova-lib": "^5.0.0",
+    "fs-extra": "^0.18.3",
     "gulp-util": "^3.0.4",
     "q": "^1.3.0",
-    "through2": "^0.6.5"
+    "through2": "^0.6.5",
+    "user-home": "^1.1.1"
   }
 }

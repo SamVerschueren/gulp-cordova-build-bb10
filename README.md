@@ -14,25 +14,26 @@ Make sure the location of the [NDK](http://cordova.apache.org/docs/en/5.0.0/guid
 to your path.
 
 ```JavaScript
-var gulp = require('gulp'),
+var path = require('path'),
+    gulp = require('gulp'),
     create = require('gulp-cordova-create'),
     plugin = require('gulp-cordova-plugin'),
     bb10 = require('gulp-cordova-build-bb10');
 
 gulp.task('build', function() {
-    return gulp.src('www')
+    return gulp.src('dist')
         .pipe(create())
         .pipe(plugin('org.apache.cordova.dialogs'))
         .pipe(plugin('org.apache.cordova.camera'))
-        .pipe(bb10())
-        .pipe(gulp.dest('package'));
+        .pipe(bb10({debugtoken: path.join(__dirname, 'debugtoken.bar'}))
+        .pipe(gulp.dest('build'));
 });
 ```
 
 This plugin will build the cordova project for the BlackBerry 10 platform.
 
-Because the plugin returns the bar file, you can pipe it to ```gulp.dest```. This will store the ```bb10app.bar``` file
-in the ```package``` directory.
+Because the plugin returns the bar file, you can pipe it to `gulp.dest`. This will store the `bb10app.bar` file
+in the `build` directory.
 
 ### Sign the bar file
 
@@ -64,6 +65,12 @@ as option, it's not necessary to set `release` to true.
 ### bb10([options])
 
 #### options
+
+##### debugtoken
+
+Type: `string`
+
+Absolute path to the debugtoken file used to create a debug build. This property can be omitted if you copy the debugtoken to the `~/.cordova` directory by yourself.
 
 ##### release
 
